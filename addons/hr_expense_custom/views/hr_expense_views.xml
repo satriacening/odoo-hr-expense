@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- menambahkan fields pada form view -->
+    <record id="hr_expense_inherit_view" model="ir.ui.view">
+        <field name="name">hr.expense.inherit.view</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='reference']" position="before">
+                <field name="destination"/>
+                <field name="froms"/>
+                <field name="to"/>
+            </xpath>
+        </field>
+    </record>  
+
+    <!-- menambahkan fields pada report tree view -->
+    <!-- <record id="hr_expense_inherit_report_view" model="ir.ui.view">
+        <field name="name">hr.expense.inherit.report.view</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='line.description']" position="after">
+                <span t-field="line.destination"/>
+            </xpath>
+        </field>
+    </record>    -->
+
+    <template id="hr_expense_inherit_report_view" inherit_id="hr_expense.hr_expense_view_form">
+        <xpath expr="//div[@name='line.description']" position="after">
+            <span t-field="line.destination"/>
+        </xpath>
+    </template>
+</odoo>

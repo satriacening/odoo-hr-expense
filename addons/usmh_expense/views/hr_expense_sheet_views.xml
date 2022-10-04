@@ -1,0 +1,105 @@
+<odoo>
+    <record id="view_hr_expense_sheet_form" model="ir.ui.view">
+        <field name="name">hr.expense.sheet.view.form.usmh_expense</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='reset_expense_sheets']" position="attributes">
+                <attribute name="attrs"></attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[@name='employee_details']" position="before">
+                <group>
+                    <field name="applicant_code"/>
+                    <field name="department_code"/>
+                    <field name="expense_type"/>
+                </group>
+            </xpath>
+            <xpath expr="//group[@name='employee_details']/field[@name='employee_id']" position="attributes">
+                <attribute name="string">Applicant Name</attribute>
+            </xpath>
+            <xpath expr="//group[@name='employee_details']/field[@name='payment_mode']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[@name='employee_details']/field[@name='department_id']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
+            <xpath expr="//group[@name='employee_details']/field[@name='department_id']" position="after">
+                <field name="account_id" required="1"/>
+                <field name="has_voucher" attrs="{'invisible': [('expense_type', 'not in', ('public_transportation', 'consumable'))]}"/>
+            </xpath>
+
+            <xpath expr="//group[@name='employee_details']/field[@name='company_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[@name='employee_details']/field[@name='user_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='expense_line_ids']" position="attributes">
+                <attribute name="context">{'form_view_ref' : 'hr_expense.hr_expense_view_form_without_header', 'default_company_id': company_id, 'default_employee_id': employee_id, 'default_expense_type': expense_type}</attribute>
+                <attribute name="domain">[('state', '=', 'draft'), ('employee_id', '=', employee_id), ('company_id', '=', company_id), ('expense_type','=',expense_type)]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='expense_line_ids']//field[@name='date']" position="attributes">
+                <attribute name="class">oe_edit_only</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='expense_line_ids']//field[@name='name']" position="before">
+               <field name="date_string" class="oe_read_only" string="Expense Date"/>
+               <field name="expense_type" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='expense_line_ids']//field[@name='name']" position="after">
+                <!-- Small Withdrawal -->
+                <field name="commuting_kilometer" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'car')], 'required': [('expense_type', '=', 'car')]}"/>
+                <field name="location_destination" optional="show" attrs="{'column_invisible': [('parent.expense_type', 'not in', ('small_withdrawal', 'public_transportation'))], 'required': [('expense_type', 'in', ('small_withdrawal','public_transportation'))]}"/>
+                <field name="location_from" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'public_transportation')], 'required': [('expense_type','=', 'public_transportation')]}"/>
+                <field name="location_to" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'public_transportation')], 'required': [('expense_type','=', 'public_transportation')]}"/>
+                <field name="product_id" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'public_transportation')], 'required': [('expense_type','=', 'public_transportation')]}"/>
+                <field name="journey_type" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'public_transportation')], 'required': [('expense_type','=', 'public_transportation')]}"/>
+                <field name="use_content" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'small_withdrawal')], 'required': [('expense_type','=', 'small_withdrawal')]}"/>
+               
+                
+                <!-- Transportation -->
+                <field name="means_transport" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'car')], 'required': [('expense_type','=', 'car')]}"/>
+                <field name="use_purpose" optional="show" attrs="{'column_invisible': [('parent.expense_type', 'not in', ('car', 'small_withdrawal'))], 'required': [('expense_type','in', ('car', 'small_withdrawal'))]}"/>
+                <field name="route" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'car')], 'required': [('expense_type','=', 'car')]}"/>
+                <field name="business_use" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'car')], 'required': [('expense_type','=', 'car')]}"/>
+                <field name="commuting_use" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'car')], 'required': [('expense_type','=', 'car')]}"/>
+                <!-- Small Withdrawal -->
+                <field name="section" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'small_withdrawal')], 'required': [('expense_type','=', 'small_withdrawal')]}"/>
+                <field name="lot_name" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'small_withdrawal')], 'required': [('expense_type','=', 'small_withdrawal')]}"/>
+               
+
+                <!-- Business Trip -->
+                <field name="date_planned" attrs="{'column_invisible': [('parent.expense_type', '!=', 'business_trip')], 'required': [('expense_type','=', 'business_trip')]}"/>
+                <field name="number_accommodation" attrs="{'column_invisible': [('parent.expense_type', '!=', 'business_trip')], 'required': [('expense_type','=', 'business_trip')]}"/>
+                <field name="address_business" attrs="{'column_invisible': [('parent.expense_type', '!=', 'business_trip')], 'required': [('expense_type','=', 'business_trip')]}"/>
+                <field name="reason_business" attrs="{'column_invisible': [('parent.expense_type', '!=', 'business_trip')], 'required': [('expense_type','=', 'business_trip')]}"/>
+                <field name="allowance" attrs="{'column_invisible': [('parent.expense_type', '!=', 'business_trip')], 'required': [('expense_type','=', 'business_trip')]}"/>
+                <field name="cost_accommodation" attrs="{'column_invisible': [('parent.expense_type', '!=', 'business_trip')], 'required': [('expense_type','=', 'business_trip')]}"/>
+                
+            </xpath>
+
+            <xpath expr="//field[@name='expense_line_ids']//field[@name='total_amount']" position="after">
+                <!-- Transportation -->
+                <field name="temporary_storate" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'car')], 'required': [('expense_type','=', 'car')]}"/>
+                <field name="support" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'car')], 'required': [('expense_type','=', 'car')]}"/>
+                <field name="light_car" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'car')], 'required': [('expense_type','=', 'car')]}"/>
+                <field name="car_type_id" options="{'no_create': True}" optional="show" attrs="{'column_invisible': [('parent.expense_type', '!=', 'car')], 'required': [('expense_type','=', 'car')]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='expense_line_ids']//field[@name='name']" position="attributes">
+               <attribute name="string">Detailed Description</attribute>
+               <attribute name="attrs">{'column_invisible': [('parent.expense_type', '!=', 'consumable')], 'required': [('expense_type','=', 'consumable')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='expense_line_ids']//field[@name='tax_ids']" position="attributes">
+               <attribute name="attrs">{'column_invisible': [('parent.expense_type', '!=', 'consumable')], 'required': [('expense_type','=', 'consumable')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='expense_line_ids']//button[@name='action_get_attachment_view']" position="attributes">
+               <attribute name="attrs">{'column_invisible': [('parent.expense_type', 'not in', ('public_transportation', 'consumable'))]}</attribute>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
+

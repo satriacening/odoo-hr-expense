@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!-- membuat tree view pada halaman utama expense taxi -->
+<record id="hr_expense_view_expenses_analysis_tree" model="ir.ui.view">
+    <field name="name">hr_expense_tree</field>
+    <field name="model">hr.expense.taxi</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="expense_date"/>
+            <field name="applicant_code"/>
+            <field name="applicant_name"/>
+            <field name="department_code"/>
+            <field name="department_name"/>
+            <field name="product"/>
+            <field name="expense_type"/>
+            <field name="account"/>
+            <field name="destination"/>
+            <field name="froms"/>
+            <field name="to"/>
+            <field name="line"/>
+            <field name="attachment"/>
+            <field name="status"/>
+            <field name="amount" string="Total Calculation" optional="show" widget="monetary"  options="{'currency_field': 'currency_id'}" decoration-bf="True"/>
+        </tree>
+    </field>
+</record>
+<!-- membuat form view pada halaman create -->
+<record id="taxi_actions_form_id" model="ir.ui.view">
+    <field name="name">hr_expense_view_form</field>
+    <field name="model">hr.expense.taxi</field>
+    <field name="arch" type="xml">
+        <form>
+            <header>
+                <button type="object" name="func_submitted" string="Submit" attrs="{'invisible':[('status', '!=', 'draft')]}" class="oe_highlight"/>
+                <button type="object" name="func_approved" string="Approve" attrs="{'invisible':[('status', '!=', 'submitted')]}" class="oe_highlight"/>
+                <button type="object" name="func_posted" string="Post" attrs="{'invisible':[('status', '!=', 'approved')]}" class="oe_highlight"/>
+                <button type="object" name="func_paid" string="Paid" attrs="{'invisible':[('status', '!=', 'posted')]}"  class="oe_highlight"/>
+                <field name="status" widget="statusbar"/>
+            </header>
+            <sheet>
+                <group>
+                    <group>
+                        <field name="applicant_code"/>
+                        <field name="department_code"/>
+                        <field name="expense_type"/>
+                    </group>
+                    <group>
+                        <field name="applicant_name"/>
+                        <field name="department_name"/>     
+                        <field name="account"/>
+                    </group>
+                </group>
+                <group>
+                    <group>
+                        <field name="product"/>
+                        <field name="expense_date"/>
+                    </group>
+                    <group>
+                        <field name="destination"/>
+                        <field name="froms"/>
+                        <field name="to"/>
+                        <field name="line"/>
+                        <field name="amount" required="1" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                        <field name="voucher"/>
+                        <field name="attachment"/>                        
+                    </group>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+<!-- 
+<record id="hr_expense_view_kanban_analysis_tree" model="ir.ui.view">
+    <field name="name">hr_expense_kanban</field>
+    <field name="model">hr.expense.taxi</field>
+    <header>
+    </header>
+</record> -->
+
+
+
+</odoo>

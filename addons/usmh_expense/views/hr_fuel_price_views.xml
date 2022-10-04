@@ -1,0 +1,121 @@
+<odoo>
+    <record id="hr_fuel_price_view_form" model="ir.ui.view">
+        <field name="name">hr.fuel.price.view.form</field>
+        <field name="model">hr.fuel.price</field>
+        <field name="arch" type="xml">
+            <form string="Fuel Price">
+                <sheet>
+                   <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Diesel"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="product_id" required="1"/>
+                        <field name="company_id" invisible="1"/>
+                    </group>
+                    <newline/>
+                    <field name="fuel_price_line_ids" nolabel="1">
+                        <tree editable="bottom">
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="price" sum="total"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="hr_fuel_price_view_tree" model="ir.ui.view">
+        <field name="name">hr.fuel.price.view.tree</field>
+        <field name="model">hr.fuel.price</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="product_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="hr_fuel_price_view_search" model="ir.ui.view">
+        <field name="name">hr.fuel.price.view.search</field>
+        <field name="model">hr.fuel.price</field>
+        <field name="arch" type="xml">
+            <search string="Fuel Price">
+                <field name="name"/>
+                <field name="product_id"/>
+                <group expand="0" string="Group By">
+                    <filter 
+                        name="by_product"
+                        string="By Product"
+                        domain="[]"
+                        context="{'group_by': 'product_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="hr_fuel_price_action" model="ir.actions.act_window">
+        <field name="name">Fuel Price</field>
+        <field name="res_model">hr.fuel.price</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="hr_fuel_price_view_search"/>
+    </record>
+    <menuitem
+        id="hr_fuel_price_root_menu"
+        name="Fuel Price"
+        groups="hr_expense.group_hr_expense_manager"
+        parent="hr_expense.menu_hr_expense_configuration"/>
+    <menuitem
+        id="hr_fuel_price_menu"
+        action="hr_fuel_price_action"
+        parent="hr_fuel_price_root_menu"/>
+
+    <record id="hr_fuel_price_line_view_tree" model="ir.ui.view">
+        <field name="name">hr.fuel.price.line.view.tree</field>
+        <field name="model">hr.fuel.price.line</field>
+        <field name="arch" type="xml">
+            <tree create="false">
+                <field name="name"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="price" sum="total"/>
+            </tree>
+        </field>
+    </record>
+    <record id="hr_fuel_price_line_view_search" model="ir.ui.view">
+        <field name="name">hr.fuel.price.line.view.search</field>
+        <field name="model">hr.fuel.price.line</field>
+        <field name="arch" type="xml">
+            <search string="Fuel Price Line">
+                <field name="name"/>
+                <separator/>
+                <filter string="Start Date" name="start_date" date="start_date"/>
+                <separator/>
+                <filter string="End Date" name="end_date" date="end_date"/>
+
+                <group expand="0" string="Group By">
+                    <filter 
+                        name="by_start_date"
+                        string="By Start Date"
+                        domain="[]"
+                        context="{'group_by': 'start_date'}" />
+                    <filter 
+                        name="by_end_date"
+                        string="By End Date"
+                        domain="[]"
+                        context="{'group_by': 'end_date'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="hr_fuel_price_line_action" model="ir.actions.act_window">
+        <field name="name">Fuel Price Line</field>
+        <field name="res_model">hr.fuel.price.line</field>
+        <field name="view_mode">tree</field>
+        <field name="search_view_id" ref="hr_fuel_price_line_view_search"/>
+    </record>
+     <menuitem
+        id="hr_fuel_price_line_menu"
+        action="hr_fuel_price_line_action"
+        parent="hr_fuel_price_root_menu"/>
+</odoo>

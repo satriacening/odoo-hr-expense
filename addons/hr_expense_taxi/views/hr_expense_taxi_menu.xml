@@ -1,0 +1,12 @@
+<odoo>
+    <menuitem
+        id = "parent_taxi_id"
+        name = "HR Expense Taxi"
+        sequence = "5"/>
+        <menuitem
+            id = "child"
+            name = "HR Expence Taxi"
+            sequence = "1"
+            parent = "hr_expense_taxi.parent_taxi_id"
+            action="hr_expense_taxi.taxi_action_id"/>
+</odoo>

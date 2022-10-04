@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_fuel_price_manager,access.hr.fuel.price.manager,model_hr_fuel_price,hr_expense.group_hr_expense_manager,1,1,1,1
+access_hr_fuel_price_line_manager,access.hr.fuel.price.line.manager,model_hr_fuel_price_line,hr_expense.group_hr_expense_manager,1,1,1,1
+access_hr_car_type_manager,access.hr.car.type.manager,model_hr_car_type,hr_expense.group_hr_expense_manager,1,1,1,1
