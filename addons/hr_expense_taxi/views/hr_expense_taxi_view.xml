@@ -21,7 +21,7 @@
             <field name="line"/>
             <field name="attachment"/>
             <field name="status"/>
-            <field name="amount" string="Total Calculation" optional="show" widget="monetary"  options="{'currency_field': 'currency_id'}" decoration-bf="True"/>
+            <!-- <field name="amount" string="Total Calculation" optional="show" widget="monetary"  options="{'currency_field': 'currency_id'}" decoration-bf="True"/> -->
         </tree>
     </field>
 </record>
@@ -61,7 +61,7 @@
                         <field name="froms"/>
                         <field name="to"/>
                         <field name="line"/>
-                        <field name="amount" required="1" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                        <!-- <field name="amount" required="1" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/> -->
                         <field name="voucher"/>
                         <field name="attachment"/>                        
                     </group>
