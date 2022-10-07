@@ -29,6 +29,21 @@ services:
       - odoo-web-data:/var/lib/odoo
     ports:
       - 8069:8069/tcp
+  odoo1:
+    container_name: odoo1
+    build: .
+    platform: linux/amd64 # for arm mac, required this
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    links:
+      - postgres:postgres
+    volumes:
+      - ./addons:/mnt/extra-addons
+      - ./config/odoo1:/etc/odoo
+      - odoo-web-data1:/var/lib/odoo
+    ports:
+      - 8061:8069/tcp
   nginx:
     container_name: nginx
     image: nginx:latest
@@ -63,5 +78,6 @@ volumes:
   db-data:
   metabase-data:
   odoo-web-data:
+  odoo-web-data1:
   # pgadmin:
 

@@ -1,19 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- menambahkan fields pada form view -->
-
-    
     <record id="hr_expense_inherit_view" model="ir.ui.view">
         <field name="name">hr.expense.inherit.view</field>
         <field name="model">hr.expense</field>
         <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
         <field name="arch" type="xml">
+            <!-- add new fields  -->
             <xpath expr="//field[@name='reference']" position="before">
                 <field name="applicant_code" />
                 <field name="froms"/>
                 <field name="to"/>
                 <field name="destination"/>
                 <field name="round_type" string="One Way or Return"/>
+            </xpath>
+            <xpath expr="//field[@name='unit_amount']" position="after">
+                <field name="total_amounts" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+            </xpath>
+
+            <!-- Hide existing field -->
+            <xpath expr="//label[@for='quantity']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='quantity']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='total_amount']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='amount_residual']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='reference']" position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
         </field>
     </record>  
@@ -24,7 +43,7 @@
         <field name="model">hr.expense.sheet</field>
         <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
         <field name="arch" type="xml">
-            
+        <!-- Add new group -->
             <xpath expr="//group[@name='employee_details']" position="before">
                 <group>
                     <field name="employee_id"/>
@@ -32,13 +51,36 @@
                     <field name="expense_type"/>
                 </group>
             </xpath>
-            
+
+        <!-- Rename or edit field -->
+            <xpath expr="//group[@name='employee_details']/field[@name='employee_id']" position="attributes">
+                <attribute name="string">Applicant Name</attribute>
+            </xpath>
+        
+        <!-- Hide existing field -->
+            <xpath expr="//group[@name='employee_details']/field[@name='payment_mode']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[@name='employee_details']/field[@name='user_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[@name='employee_details']/field[@name='company_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        <!-- Add new fields -->
             <xpath expr="//field[@name='expense_line_ids']/tree/field[@name='name']" position="after">
                 <field name="froms"/>
                 <field name="to"/>
                 <field name="destination"/>
                 <field name="round_type"/>
-            </xpath>        
+            </xpath>     
+        <!-- add new field in spesific group -->
+            <xpath expr="//group[@name='employee_details']/field[@name='employee_id']" position="after">
+                <field name="departement_code"/>
+                <field name="account"/>
+
+            </xpath> 
         </field>
     </record>   
 </odoo>

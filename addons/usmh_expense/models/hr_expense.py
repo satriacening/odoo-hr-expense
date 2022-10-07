@@ -31,6 +31,7 @@ class HrExpense(models.Model):
     number_accommodation = fields.Integer(string='Number of nights Hotel/Accommodation is needed')
     address_business = fields.Text(string='Address of Business Trip')
     allowance = fields.Float()
+    total_amount = fields.Monetary("Total", compute='_compute_amount', store=True, currency_field='currency_id', tracking=True)
     reason_business = fields.Char(string='Reason/Customer of Business Trip')
     cost_accommodation = fields.Float(string='Cost of Accommodation')
     car_type_id = fields.Many2one(comodel_name='hr.car.type')

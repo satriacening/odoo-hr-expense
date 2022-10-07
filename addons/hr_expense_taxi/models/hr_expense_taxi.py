@@ -17,7 +17,7 @@ class hr_expense_taxi (models.Model):
     def func_paid(self):
         if self.status == 'posted':
             self.status = 'paid'
-
+    note = fields.Html(string="Note")
     applicant_code = fields.Char(string="Appliciant Code")
     applicant_name = fields.Char(string="Appliciant Name")
     department_code = fields.Char(string="Departemen Code")

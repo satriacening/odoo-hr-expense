@@ -2,6 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from email.policy import default
+from string import digits
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import format_date
 import re
@@ -14,26 +15,31 @@ class HrExpense(models.Model):
     applicant_code = fields.Char(default=lambda self:self.env.user.name)
     department_code = fields.Char(string="Departemen Code")
     account = fields.Char(string="Account")
+    # quantity = fields.Float(required=False, readonly=True, states={'draft': [('readonly', False)], 'reported': [('readonly', False)], 'refused': [('readonly', False)]}, digits='Product Unit of Measure', default=1)
+
 
     destination = fields.Char(string='Destination')
     froms = fields.Char(string='From')
     to = fields.Char(string='To')
-    total_amount = fields.Monetary(string="total")
-    unit_amount = fields.Float(string="Amount")
+
     round_type = fields.Selection([
         ("oneway","Oneway"),
         ("return","Return")
     ])              
     payment_mode = fields.Selection(string="Payment", default="own_account", readonly=True)
+
+    # total_amount = fields.Char(compute="_compute_amount")
+    total_amounts = fields.Float(string="Amount", compute="_compute_amount", store=True, required=True, copy=True,
+        states={'draft': [('readonly', False)], 'reported': [('readonly', False)], 'refused': [('readonly', False)]}, digits='Product Price')
     def _compute_amount(self):
         for expense in self:
-            expense.total_amount = expense.unit_amount
+            expense.total_amounts = expense.unit_amount
 
 
 class HrExpenseSheet(models.Model):
     # _name = 'hr.expense.sheets'
     _inherit = ['hr.expense.sheet']
-    
+
     user_id = fields.Many2one('res.users', 'Manager', compute='_compute_from_employee_id', store=True, readonly=True, copy=False, states={'draft': [('readonly', False)]}, tracking=True, domain=lambda self: [('groups_id', 'in', self.env.ref('hr_expense.group_hr_expense_team_approver').id)])
     company_id = fields.Many2one('res.company', string='Company', required=True, readonly=True, states={'draft': [('readonly', False)]}, default=lambda self: self.env.company)
     payment_mode = fields.Selection(related='expense_line_ids.payment_mode', default='own_account', readonly=True, string="Paid By", tracking=True)

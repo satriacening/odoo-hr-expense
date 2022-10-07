@@ -66,6 +66,7 @@
                         <field name="attachment"/>                        
                     </group>
                 </group>
+                <field name="note" widget="html"/>
             </sheet>
         </form>
     </field>
