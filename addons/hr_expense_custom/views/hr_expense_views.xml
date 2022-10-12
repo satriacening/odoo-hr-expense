@@ -8,24 +8,22 @@
         <field name="arch" type="xml">
             <!-- add new fields  -->
             <xpath expr="//field[@name='reference']" position="before">
-                <field name="applicant_code" />
+                <field name="barcode" readonly="1"/>
+                <field name="department_name" readonly="1"/>
+                <field name="department_code" readonly="1"/>
                 <field name="froms"/>
                 <field name="to"/>
                 <field name="destination"/>
                 <field name="round_type" string="One Way or Return"/>
             </xpath>
-            <xpath expr="//field[@name='unit_amount']" position="after">
-                <field name="total_amounts" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+            <xpath expr="//field[@name='total_amount']" position="replace">
+                <field name="total_amount" widget="monetary" readonly="1" options="{'field_digits': True}"/>
             </xpath>
-
             <!-- Hide existing field -->
             <xpath expr="//label[@for='quantity']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='quantity']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-            <xpath expr="//field[@name='total_amount']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='amount_residual']" position="attributes">
@@ -34,8 +32,15 @@
             <xpath expr="//field[@name='reference']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='payment_mode']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
         </field>
     </record>  
+
 
     <!-- menambahkan fields pada report tree view -->
     <record id="hr_expense_inherit_report_view" model="ir.ui.view">
@@ -67,7 +72,9 @@
             <xpath expr="//group[@name='employee_details']/field[@name='company_id']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
-
+            <!-- <xpath expr="//field[@name='expense_line_ids']/tree/field[@name='sale_order_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath> -->
         <!-- Add new fields -->
             <xpath expr="//field[@name='expense_line_ids']/tree/field[@name='name']" position="after">
                 <field name="froms"/>
@@ -79,7 +86,6 @@
             <xpath expr="//group[@name='employee_details']/field[@name='employee_id']" position="after">
                 <field name="departement_code"/>
                 <field name="account"/>
-
             </xpath> 
         </field>
     </record>   

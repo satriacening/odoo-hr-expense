@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_expense_employee,hr.expense.employee,model_hr_expense,base.group_user,1,1,1,1
+access_hr_expense_sheet_employee,hr.expense.sheet.employee,model_hr_expense_sheet,base.group_user,1,1,1,1
+access_account_journal_employee,account.journal.employee,account.model_account_journal,base.group_user,1,0,0,0

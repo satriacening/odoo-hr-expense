@@ -3,7 +3,7 @@
 
 
 {
-    'name': 'Custom Expenses inherit',
+    'name': 'Custom inherit sale expense',
     'author': 'Custom By Satria',
     'version': '2.0',
     'category': 'Human Resources/Expenses',
@@ -26,8 +26,7 @@ The whole flow is implemented as:
 
 This module also uses analytic accounting and is compatible with the invoice on timesheet module so that you are able to automatically re-invoice your customers' expenses if your work by project.
     """,
-    'website': 'https://www.odoo.com/page/expenses',
-    'depends': ['hr_expense','hr',
+    'depends': ['hr_expense',
 
 ],
     'data': [
@@ -35,6 +34,7 @@ This module also uses analytic accounting and is compatible with the invoice on 
         # 'security/ir.model.access.csv',
         'views/hr_expense_views.xml',
     ],
+    'demo': ['data/hr_expense_demo.xml'],
     'installable': True,
     'application': True,
     'license': 'LGPL-3',
