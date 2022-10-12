@@ -6,6 +6,7 @@
         <field name="model">hr.expense</field>
         <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
         <field name="arch" type="xml">
+
             <!-- add new fields  -->
             <xpath expr="//field[@name='reference']" position="before">
                 <field name="barcode" readonly="1"/>
@@ -89,4 +90,34 @@
             </xpath> 
         </field>
     </record>   
+    <record id="hr_expense_inherit_tree_view" model="ir.ui.view">
+        <field name="name">hr.expense.inherit.tree.view</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.view_my_expenses_tree"/>
+        <field name="arch" type="xml">
+            <!-- <tree banner_route="/test/">
+
+            </tree> -->
+            <xpath expr="//tree" position="attributes">
+                <attribute name="banner_route">/test/</attribute>
+                <!-- <tree banner_route="/test/"></tree> -->
+            </xpath>
+            <!-- <form banner_route="/test/"> # banner_route to call controller
+                <sheet>
+                    <group name="main">
+                        <group name="left">
+                            <field name="name"/>
+                        </group>
+                        <group name="right"></group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form> -->
+        </field>
+    </record>
+    
 </odoo>
